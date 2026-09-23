@@ -1,0 +1,67 @@
+name: ci-deploy
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+    tags: ['v*.*.*']
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      deployments: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+      - id: target
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            echo "branch=production" >> $GITHUB_OUTPUT
+          elif [[ "$GITHUB_REF" == refs/heads/main ]]; then
+            echo "branch=staging" >> $GITHUB_OUTPUT
+          else
+            echo "branch=${GITHUB_HEAD_REF//\//-}" >> $GITHUB_OUTPUT
+          fi
+      - uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=hover-wayfinder --branch=${{ steps.target.outputs.branch }}
+
+  e2e:
+    needs: deploy
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile && pnpm exec playwright test
+        env:
+          BASE_URL: 'https://${{ github.head_ref }}.hover-wayfinder.pages.dev'

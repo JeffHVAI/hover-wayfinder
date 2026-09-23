@@ -1,0 +1,19 @@
+{
+  "name": "Mappedin Demo Mall",
+  "mapId": "65c0ff7430b94e3fabd5bb8c",
+  "originExternalId": "kiosk-main-entrance",
+  "camera": {
+    "home": {
+      "zoomLevel": 18,
+      "bearing": 0,
+      "pitch": 45
+    },
+    "minZoom": 15,
+    "maxZoom": 22
+  },
+  "idle": {
+    "warnSeconds": 45,
+    "resetSeconds": 60
+  },
+  "layout": "auto"
+}
