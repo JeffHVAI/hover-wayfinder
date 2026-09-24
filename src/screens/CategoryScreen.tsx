@@ -4,7 +4,7 @@ import { TenantList } from '../components/TenantList';
 import type { LocationItem } from '../types';
 
 export const CategoryScreen: React.FC = () => {
-  const { currentScreen, controller, popScreen, openLocation } = useStore();
+  const { currentScreen, controller, popScreen, openLocation, toggleNav } = useStore();
   const [activeLetter, setActiveLetter] = useState<string | null>(null);
 
   const category = currentScreen.selectedCategory;
@@ -48,6 +48,10 @@ export const CategoryScreen: React.FC = () => {
           className="back-btn touch-interactive"
           data-touch-target="true"
           onClick={popScreen}
+          onPointerDown={(e) => {
+            e.stopPropagation();
+            popScreen();
+          }}
           aria-label="Back to previous screen"
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -62,6 +66,19 @@ export const CategoryScreen: React.FC = () => {
             {displayedLocations.length} {displayedLocations.length === 1 ? 'location' : 'locations'}
           </span>
         </div>
+
+        <button
+          type="button"
+          className="header-collapse-btn touch-interactive"
+          data-touch-target="true"
+          onClick={toggleNav}
+          aria-label="Collapse directory menu to maximize 3D map"
+          title="Maximize Map View"
+        >
+          <span className="collapse-arrow-desktop">◀</span>
+          <span className="collapse-arrow-mobile">▲</span>
+          <span className="collapse-label">Map</span>
+        </button>
       </div>
 
       {/* Alphabet Fast Jump Bar (for A-Z mode or large lists) */}

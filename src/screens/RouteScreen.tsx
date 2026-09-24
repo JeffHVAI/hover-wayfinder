@@ -2,7 +2,7 @@ import React from 'react';
 import { useStore } from '../state/store';
 
 export const RouteScreen: React.FC = () => {
-  const { activeRoute, currentScreen, controller, popScreen, resetToHome } = useStore();
+  const { activeRoute, currentScreen, controller, popScreen, resetToHome, toggleNav } = useStore();
 
   const location = currentScreen.selectedLocation;
 
@@ -24,13 +24,17 @@ export const RouteScreen: React.FC = () => {
 
   return (
     <div className="route-screen">
-      {/* Route Header with Back and Clear Actions */}
+      {/* Route Header with Back, Collapse and Clear Actions */}
       <div className="screen-header">
         <button
           type="button"
           className="back-btn touch-interactive"
           data-touch-target="true"
           onClick={popScreen}
+          onPointerDown={(e) => {
+            e.stopPropagation();
+            popScreen();
+          }}
           aria-label="Back to store detail"
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -41,9 +45,26 @@ export const RouteScreen: React.FC = () => {
 
         <button
           type="button"
+          className="header-collapse-btn touch-interactive"
+          data-touch-target="true"
+          onClick={toggleNav}
+          aria-label="Collapse directory menu to maximize 3D map"
+          title="Maximize Map View"
+        >
+          <span className="collapse-arrow-desktop">◀</span>
+          <span className="collapse-arrow-mobile">▲</span>
+          <span className="collapse-label">Map</span>
+        </button>
+
+        <button
+          type="button"
           className="clear-route-btn touch-interactive"
           data-touch-target="true"
           onClick={handleClearRoute}
+          onPointerDown={(e) => {
+            e.stopPropagation();
+            handleClearRoute();
+          }}
           aria-label="Clear active route and return home"
         >
           <span>Clear Route</span>

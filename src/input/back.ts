@@ -15,25 +15,27 @@ export function setupBackGuard(): () => void {
 
     if (store.stack.length > 1) {
       store.popScreen();
+    } else if (store.currentScreen.type === 'home') {
+      store.resetToAttract();
     }
 
-    // Re-arm the sentinel if we hit the root history state
-    if (history.state?.root) {
-      try {
-        history.pushState({ guard: true }, '');
-      } catch {
-        // ignore
-      }
+    // Re-arm sentinel so back navigation never exits Chromium
+    try {
+      history.pushState({ guard: true }, '');
+    } catch {
+      // ignore
     }
   };
 
   const handleKeyDown = (e: KeyboardEvent) => {
-    if (e.key === 'BrowserBack' || (e.altKey && e.key === 'ArrowLeft')) {
+    if (e.key === 'BrowserBack' || (e.altKey && e.key === 'ArrowLeft') || e.key === 'Escape') {
       e.preventDefault();
       const store = useStore.getState();
       store.recordActivity();
       if (store.stack.length > 1) {
         store.popScreen();
+      } else if (store.currentScreen.type === 'home') {
+        store.resetToAttract();
       }
     }
   };

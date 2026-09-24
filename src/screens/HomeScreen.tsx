@@ -7,7 +7,17 @@ import { DEMO_VENUES, type DemoVenue } from '../config';
 import type { CategoryItem, LocationItem } from '../types';
 
 export const HomeScreen: React.FC = () => {
-  const { controller, pushScreen, openLocation, site, activeVenueId, switchVenue, isVenueLoading } = useStore();
+  const {
+    controller,
+    pushScreen,
+    openLocation,
+    site,
+    activeVenueId,
+    switchVenue,
+    isVenueLoading,
+    resetToAttract,
+    toggleNav,
+  } = useStore();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isVenueModalOpen, setIsVenueModalOpen] = useState(false);
 
@@ -45,24 +55,52 @@ export const HomeScreen: React.FC = () => {
       {/* Top Search & Navigation Bar */}
       <div className="home-header">
         <div className="home-header-branding">
-          <div className="brand-text-group">
-            <span className="brand-venue">{site.name}</span>
-            <span className="brand-tagline">3D Wayfinding & Interactive Kiosk</span>
-          </div>
-
           <button
             type="button"
-            className="home-venue-selector-btn touch-interactive"
+            className="back-btn home-back-btn touch-interactive"
             data-touch-target="true"
-            onClick={() => setIsVenueModalOpen(true)}
-            aria-label="Change demo venue map"
+            onClick={resetToAttract}
+            aria-label="Back to welcome screen and venue selection"
           >
-            <span className="venue-indicator-icon">{currentVenue.icon}</span>
-            <div className="venue-indicator-labels">
-              <span className="venue-indicator-title">{currentVenue.shortName}</span>
-              <span className="venue-indicator-hint">Change Map ▾</span>
-            </div>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+            <span>Venues</span>
           </button>
+
+          <div className="brand-text-group">
+            <span className="brand-venue">{site.name}</span>
+            <span className="brand-tagline">3D Wayfinding</span>
+          </div>
+
+          <div className="header-actions-group">
+            <button
+              type="button"
+              className="home-venue-selector-btn touch-interactive"
+              data-touch-target="true"
+              onClick={() => setIsVenueModalOpen(true)}
+              aria-label="Change demo venue map"
+            >
+              <span className="venue-indicator-icon">{currentVenue.icon}</span>
+              <div className="venue-indicator-labels">
+                <span className="venue-indicator-title">{currentVenue.shortName}</span>
+                <span className="venue-indicator-hint">Change ▾</span>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              className="header-collapse-btn touch-interactive"
+              data-touch-target="true"
+              onClick={toggleNav}
+              aria-label="Collapse directory menu to maximize 3D map"
+              title="Maximize Map View"
+            >
+              <span className="collapse-arrow-desktop">◀</span>
+              <span className="collapse-arrow-mobile">▲</span>
+              <span className="collapse-label">Map</span>
+            </button>
+          </div>
         </div>
 
         <div className="home-search-actions">

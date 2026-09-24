@@ -10,11 +10,8 @@ export function setupTouchlessFeedback(): () => void {
     const target = (e.target as HTMLElement)?.closest('button, [role="button"], .kiosk-tap-target') as HTMLElement | null;
 
     if (target) {
-      // Duplicate tap filter within 350ms on same target
       const now = performance.now();
-      if (lastTapTarget === target && now - lastTapTime < 350) {
-        e.preventDefault();
-        e.stopPropagation();
+      if (lastTapTarget === target && now - lastTapTime < 300) {
         return;
       }
       lastTapTarget = target;
@@ -23,17 +20,19 @@ export function setupTouchlessFeedback(): () => void {
       // Add instant press feedback
       target.classList.add('kiosk-pressed');
 
-      // Create 150ms ripple element
+      // Create 150ms ripple element on body to avoid mutating target's internal DOM
       const rect = target.getBoundingClientRect();
       const ripple = document.createElement('span');
       ripple.className = 'touchless-ripple';
       const size = Math.max(rect.width, rect.height) * 1.5;
+      ripple.style.position = 'fixed';
+      ripple.style.pointerEvents = 'none';
       ripple.style.width = `${size}px`;
       ripple.style.height = `${size}px`;
-      ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
-      ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
+      ripple.style.left = `${e.clientX - size / 2}px`;
+      ripple.style.top = `${e.clientY - size / 2}px`;
 
-      target.appendChild(ripple);
+      document.body.appendChild(ripple);
       setTimeout(() => ripple.remove(), 250);
 
       const clearPress = () => {

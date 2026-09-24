@@ -29,6 +29,11 @@ interface AppStore {
   resetToHome: () => void;
   resetToAttract: () => void;
 
+  // Nav pane collapse/expand state
+  isNavCollapsed: boolean;
+  setIsNavCollapsed: (collapsed: boolean) => void;
+  toggleNav: () => void;
+
   // Selected state
   currentFloor: FloorItem | null;
   setCurrentFloor: (floor: FloorItem | null) => void;
@@ -67,6 +72,19 @@ export const useStore = create<AppStore>((set, get) => ({
   isVenueLoading: false,
   setIsVenueLoading: (isVenueLoading) => set({ isVenueLoading }),
 
+  isNavCollapsed: false,
+  setIsNavCollapsed: (isNavCollapsed) => {
+    set({ isNavCollapsed });
+    setTimeout(() => window.dispatchEvent(new Event('resize')), 50);
+    setTimeout(() => window.dispatchEvent(new Event('resize')), 320);
+  },
+  toggleNav: () => {
+    const next = !get().isNavCollapsed;
+    set({ isNavCollapsed: next });
+    setTimeout(() => window.dispatchEvent(new Event('resize')), 50);
+    setTimeout(() => window.dispatchEvent(new Event('resize')), 320);
+  },
+
   switchVenue: async (venueId: string) => {
     set({ isVenueLoading: true, activeVenueId: venueId });
     try {
@@ -81,9 +99,10 @@ export const useStore = create<AppStore>((set, get) => ({
         site: newSite,
         mapData: data,
         isVenueLoading: false,
-        stack: [{ type: 'home' }],
+        stack: [{ type: 'attract' }, { type: 'home' }],
         currentScreen: { type: 'home' },
         activeRoute: null,
+        isNavCollapsed: false,
       });
     } catch (err: any) {
       console.error('Failed to switch venue map:', err);
@@ -105,6 +124,12 @@ export const useStore = create<AppStore>((set, get) => ({
     const nextStack = [...stack, screen];
     set({ stack: nextStack, currentScreen: screen });
 
+    try {
+      window.history.pushState({ screen: screen.type }, '');
+    } catch {
+      // ignore
+    }
+
     // Handle screen transition map updates
     if (screen.type === 'home' && controller) {
       controller.reset();
@@ -114,9 +139,11 @@ export const useStore = create<AppStore>((set, get) => ({
   },
 
   popScreen: () => {
-    const { stack, controller } = get();
+    const { stack, controller, resetToAttract } = get();
     if (stack.length <= 1) {
-      // Stay on attract screen or home
+      if (stack[0]?.type === 'home') {
+        resetToAttract();
+      }
       return;
     }
     const nextStack = stack.slice(0, -1);
@@ -127,6 +154,8 @@ export const useStore = create<AppStore>((set, get) => ({
       controller.reset();
     } else if (currentScreen.type === 'detail' && currentScreen.selectedLocation && controller) {
       controller.focus(currentScreen.selectedLocation);
+    } else if (currentScreen.type === 'attract') {
+      controller?.reset();
     }
   },
 
@@ -135,10 +164,11 @@ export const useStore = create<AppStore>((set, get) => ({
     controller?.reset();
     const homeState: ScreenState = { type: 'home' };
     set({
-      stack: [homeState],
+      stack: [{ type: 'attract' }, homeState],
       currentScreen: homeState,
       activeRoute: null,
       isIdleWarning: false,
+      isNavCollapsed: false,
     });
   },
 
@@ -151,6 +181,7 @@ export const useStore = create<AppStore>((set, get) => ({
       currentScreen: attractState,
       activeRoute: null,
       isIdleWarning: false,
+      isNavCollapsed: false,
     });
   },
 
