@@ -69,15 +69,16 @@ export const DEMO_CREDENTIALS = {
 export async function loadSiteConfig(explicitSiteId?: string): Promise<SiteConfig> {
   const params = new URLSearchParams(window.location.search);
   const siteParam = explicitSiteId || params.get('site') || 'mall-a';
+  const basePath = (import.meta.env.BASE_URL || './').replace(/\/$/, '');
 
   try {
-    const res = await fetch(`/sites/${siteParam}.json`);
+    const res = await fetch(`${basePath}/sites/${siteParam}.json`);
     if (res.ok) {
       const data = await res.json();
       return { ...FALLBACK_SITE, ...data };
     }
   } catch (e) {
-    console.warn(`Could not load /sites/${siteParam}.json, using default fallback`, e);
+    console.warn(`Could not load ${basePath}/sites/${siteParam}.json, using default fallback`, e);
   }
 
   // Fallback to matching demo venue preset

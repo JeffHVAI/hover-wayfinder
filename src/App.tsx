@@ -113,8 +113,9 @@ export const App: React.FC = () => {
   // Version polling every 5 minutes (/version.json)
   useEffect(() => {
     let currentVersion = '1.0.0';
+    const basePath = (import.meta.env.BASE_URL || './').replace(/\/$/, '');
 
-    fetch('/version.json')
+    fetch(`${basePath}/version.json`)
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => {
         if (d?.version) currentVersion = d.version;
@@ -122,7 +123,7 @@ export const App: React.FC = () => {
       .catch(() => {});
 
     const pollInterval = setInterval(() => {
-      fetch(`/version.json?t=${Date.now()}`, { cache: 'no-store' })
+      fetch(`${basePath}/version.json?t=${Date.now()}`, { cache: 'no-store' })
         .then((r) => (r.ok ? r.json() : null))
         .then((data) => {
           if (data?.version && data.version !== currentVersion) {
