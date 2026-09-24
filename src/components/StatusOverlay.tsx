@@ -13,7 +13,7 @@ export const StatusOverlay: React.FC = () => {
 
   // Load version
   useEffect(() => {
-    const basePath = (import.meta.env.BASE_URL || './').replace(/\/$/, '');
+    const basePath = ((import.meta as any).env?.BASE_URL || './').replace(/\/$/, '');
     fetch(`${basePath}/version.json`)
       .then((r) => (r.ok ? r.json() : null))
       .then((data) => {

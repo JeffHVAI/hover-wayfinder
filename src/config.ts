@@ -69,7 +69,7 @@ export const DEMO_CREDENTIALS = {
 export async function loadSiteConfig(explicitSiteId?: string): Promise<SiteConfig> {
   const params = new URLSearchParams(window.location.search);
   const siteParam = explicitSiteId || params.get('site') || 'mall-a';
-  const basePath = (import.meta.env.BASE_URL || './').replace(/\/$/, '');
+  const basePath = ((import.meta as any).env?.BASE_URL || './').replace(/\/$/, '');
 
   try {
     const res = await fetch(`${basePath}/sites/${siteParam}.json`);

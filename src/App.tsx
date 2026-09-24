@@ -113,7 +113,7 @@ export const App: React.FC = () => {
   // Version polling every 5 minutes (/version.json)
   useEffect(() => {
     let currentVersion = '1.0.0';
-    const basePath = (import.meta.env.BASE_URL || './').replace(/\/$/, '');
+    const basePath = ((import.meta as any).env?.BASE_URL || './').replace(/\/$/, '');
 
     fetch(`${basePath}/version.json`)
       .then((r) => (r.ok ? r.json() : null))
