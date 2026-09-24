@@ -1,8 +1,14 @@
 import React from 'react';
 import { useStore } from '../state/store';
+import { DEMO_VENUES } from '../config';
 
 export const AttractScreen: React.FC = () => {
-  const { site, resetToHome } = useStore();
+  const { site, resetToHome, activeVenueId, switchVenue } = useStore();
+
+  const handleVenuePick = (e: React.MouseEvent, venueId: string) => {
+    e.stopPropagation();
+    switchVenue(venueId);
+  };
 
   return (
     <div
@@ -22,7 +28,30 @@ export const AttractScreen: React.FC = () => {
         </div>
 
         <h1 className="attract-title">{site.name}</h1>
-        <p className="attract-subtitle">Explore stores, dining, services, and live turn-by-turn routes</p>
+        <p className="attract-subtitle">Explore departments, exhibits, stores, and live turn-by-turn routes</p>
+
+        {/* Available Demo Venues Selection Row */}
+        <div className="attract-venues-row" onClick={(e) => e.stopPropagation()} onPointerDown={(e) => e.stopPropagation()}>
+          <span className="venues-row-label">Select Demo Venue:</span>
+          <div className="venues-pills">
+            {DEMO_VENUES.map((v) => {
+              const isActive = activeVenueId === v.id;
+              return (
+                <button
+                  key={v.id}
+                  type="button"
+                  className={`venue-pill touch-interactive ${isActive ? 'active' : ''}`}
+                  data-touch-target="true"
+                  onClick={(e) => handleVenuePick(e, v.id)}
+                  aria-pressed={isActive}
+                >
+                  <span className="pill-icon">{v.icon}</span>
+                  <span className="pill-name">{v.shortName}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
 
         {/* 3 Gesture Showcase Cards */}
         <div className="attract-gestures-grid">
@@ -34,7 +63,7 @@ export const AttractScreen: React.FC = () => {
               </svg>
             </div>
             <h3 className="gesture-name">Point & Push</h3>
-            <p className="gesture-desc">Push toward screen to select stores and categories</p>
+            <p className="gesture-desc">Push toward screen to select locations and categories</p>
           </div>
 
           <div className="gesture-card">

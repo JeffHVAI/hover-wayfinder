@@ -8,7 +8,8 @@ import type {
   TelemetryData,
 } from '../types';
 import type { MapController } from '../map/mapController';
-import { FALLBACK_SITE } from '../config';
+import { FALLBACK_SITE, loadSiteConfig } from '../config';
+import { loadMapData } from '../map/loadMapData';
 
 interface AppStore {
   site: SiteConfig;
@@ -44,6 +45,13 @@ interface AppStore {
   openLocation: (loc: LocationItem) => void;
   openLocationForSpace: (space: any) => void;
 
+  // Venue selection
+  activeVenueId: string;
+  setActiveVenueId: (id: string) => void;
+  isVenueLoading: boolean;
+  setIsVenueLoading: (loading: boolean) => void;
+  switchVenue: (venueId: string) => Promise<void>;
+
   // Telemetry
   telemetry: TelemetryData;
   updateTelemetry: (partial: Partial<TelemetryData>) => void;
@@ -52,6 +60,36 @@ interface AppStore {
 export const useStore = create<AppStore>((set, get) => ({
   site: FALLBACK_SITE,
   setSite: (site) => set({ site }),
+
+  activeVenueId: 'mall-a',
+  setActiveVenueId: (activeVenueId) => set({ activeVenueId }),
+
+  isVenueLoading: false,
+  setIsVenueLoading: (isVenueLoading) => set({ isVenueLoading }),
+
+  switchVenue: async (venueId: string) => {
+    set({ isVenueLoading: true, activeVenueId: venueId });
+    try {
+      const newSite = await loadSiteConfig(venueId);
+      const url = new URL(window.location.href);
+      url.searchParams.set('site', venueId);
+      window.history.replaceState({}, '', url.toString());
+
+      const data = await loadMapData(newSite);
+
+      set({
+        site: newSite,
+        mapData: data,
+        isVenueLoading: false,
+        stack: [{ type: 'home' }],
+        currentScreen: { type: 'home' },
+        activeRoute: null,
+      });
+    } catch (err: any) {
+      console.error('Failed to switch venue map:', err);
+      set({ isVenueLoading: false });
+    }
+  },
 
   mapData: null,
   setMapData: (mapData) => set({ mapData }),

@@ -1,0 +1,19 @@
+{
+  "name": "Metropolitan Museum & Gallery",
+  "mapId": "660c0c3aae0596d87766f2da",
+  "originExternalId": "kiosk-main-entrance",
+  "camera": {
+    "home": {
+      "zoomLevel": 18,
+      "bearing": 0,
+      "pitch": 45
+    },
+    "minZoom": 14,
+    "maxZoom": 22
+  },
+  "idle": {
+    "warnSeconds": 45,
+    "resetSeconds": 60
+  },
+  "layout": "auto"
+}

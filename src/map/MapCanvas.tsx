@@ -13,6 +13,9 @@ export const MapCanvas: React.FC = () => {
     if (!mapData || !containerRef.current) return;
     let cancelled = false;
 
+    // Clear previous canvas if switching venue maps
+    containerRef.current.innerHTML = '';
+
     show3dMap(containerRef.current, mapData).then((mapView: any) => {
       if (cancelled) return;
 

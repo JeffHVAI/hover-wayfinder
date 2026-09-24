@@ -1,0 +1,19 @@
+{
+  "name": "General Hospital & Clinical Center",
+  "mapId": "67881b4666a208000badecc4",
+  "originExternalId": "kiosk-main-entrance",
+  "camera": {
+    "home": {
+      "zoomLevel": 18,
+      "bearing": 0,
+      "pitch": 45
+    },
+    "minZoom": 14,
+    "maxZoom": 22
+  },
+  "idle": {
+    "warnSeconds": 45,
+    "resetSeconds": 60
+  },
+  "layout": "auto"
+}
