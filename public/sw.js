@@ -4,14 +4,17 @@
 
 const CACHE_NAME = 'hover-wayfinder-v1.0.0';
 
+const scopePath = new URL(self.registration.scope).pathname;
+const basePath = scopePath.endsWith('/') ? scopePath : `${scopePath}/`;
+
 const PRECACHE_URLS = [
-  '/',
-  '/index.html',
-  '/version.json',
-  '/sites/default.json',
-  '/sites/mall-a.json',
-  '/sites/hospital.json',
-  '/sites/museum.json',
+  basePath,
+  `${basePath}index.html`,
+  `${basePath}version.json`,
+  `${basePath}sites/default.json`,
+  `${basePath}sites/mall-a.json`,
+  `${basePath}sites/hospital.json`,
+  `${basePath}sites/museum.json`,
 ];
 
 // Install: pre-cache core application shell
