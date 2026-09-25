@@ -3,6 +3,8 @@ import { useStore } from '../state/store';
 
 export const AttractScreen: React.FC = () => {
   const { site, resetToHome } = useStore();
+  const basePath = ((import.meta as any).env?.BASE_URL || './').replace(/\/$/, '');
+  const videoSrc = `${basePath}/media/attract-video.mp4`;
 
   return (
     <div
@@ -18,11 +20,24 @@ export const AttractScreen: React.FC = () => {
       <div className="attract-content">
         <div className="attract-venue-badge">
           <span className="badge-dot" />
-          <span>Interactive Directory & Wayfinding</span>
+          <span>SurfaceWare Clinical Stations • Interactive Wayfinding</span>
         </div>
 
         <h1 className="attract-title">{site.name}</h1>
-        <p className="attract-subtitle">Explore departments, exhibits, stores, and live turn-by-turn routes</p>
+
+        {/* Featured SurfaceWare Video Showcase */}
+        <div className="attract-video-showcase">
+          <video
+            className="attract-video"
+            src={videoSrc}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+            aria-label="SurfaceWare Clinical Stations Showcase Video"
+          />
+        </div>
 
         {/* 3 Gesture Showcase Cards */}
         <div className="attract-gestures-grid">
