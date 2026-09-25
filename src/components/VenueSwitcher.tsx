@@ -1,5 +1,6 @@
 import React from 'react';
 import { DEMO_VENUES, type DemoVenue } from '../config';
+import pointGif from '../assets/surfaceware-point.gif';
 
 interface VenueSwitcherProps {
   activeVenueId?: string;
@@ -56,6 +57,24 @@ export const VenueSwitcher: React.FC<VenueSwitcherProps> = ({
               </button>
             );
           })}
+        </div>
+
+        {/* Lower Left Corner Touchless Point Guide GIF */}
+        <div className="venue-rail-footer">
+          <div className="touchless-guide-card">
+            <div className="touchless-guide-media">
+              <img
+                src={pointGif}
+                alt="SurfaceWare Touchless Point Interaction"
+                className="touchless-gif"
+                loading="eager"
+              />
+            </div>
+            <div className="touchless-guide-info">
+              <span className="guide-dot-pulse" />
+              <span className="guide-label">Touchless Point Guide</span>
+            </div>
+          </div>
         </div>
       </aside>
     );
