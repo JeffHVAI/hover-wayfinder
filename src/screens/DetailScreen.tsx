@@ -19,7 +19,6 @@ export const DetailScreen: React.FC = () => {
           onClick={popScreen}
           onPointerDown={(e) => {
             e.stopPropagation();
-            popScreen();
           }}
         >
           <span>← Back</span>
@@ -67,13 +66,10 @@ export const DetailScreen: React.FC = () => {
           className="back-btn touch-interactive"
           data-touch-target="true"
           onClick={popScreen}
-          onPointerDown={(e) => {
-            e.stopPropagation();
-            popScreen();
-          }}
+          onPointerDown={(e) => e.stopPropagation()}
           aria-label="Back to store list"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
             <polyline points="15 18 9 12 15 6" />
           </svg>
           <span>Back</span>

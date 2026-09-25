@@ -88,11 +88,12 @@ body {
     flex-direction: row;
   }
 
+  /* Left-Quadrant Ergonomic Reach Hub: 560px matches adult armspan from left standing position */
   .app-shell.layout-auto .directory-panel,
   .app-shell.layout-landscape .directory-panel {
-    width: 480px;
-    min-width: 460px;
-    max-width: 520px;
+    width: 560px;
+    min-width: 520px;
+    max-width: 600px;
     height: 100%;
     z-index: 20;
     flex-shrink: 0;
@@ -106,7 +107,7 @@ body {
     top: 0;
     left: 0;
     bottom: 0;
-    width: 480px !important;
+    width: 560px !important;
     transform: translateX(-100%) !important;
     opacity: 0 !important;
     pointer-events: none !important;
@@ -161,37 +162,38 @@ body {
   }
 }
 
-/* Panel Containers */
+/* Panel Containers - SurfaceWare Reach Arc Styling */
 .directory-panel {
   display: flex;
   flex-direction: column;
-  background: var(--bg-glass);
-  backdrop-filter: blur(20px);
-  border-right: 1px solid var(--border-subtle);
+  /* Radial aura centered at user shoulder/arm pivot (280px horizontal, 48% vertical) */
+  background: radial-gradient(circle at 280px 48%, rgba(56, 189, 248, 0.08) 0%, rgba(30, 58, 138, 0.04) 50%, rgba(10, 15, 26, 0.97) 90%);
+  backdrop-filter: blur(24px);
+  border-right: 1.5px solid rgba(56, 189, 248, 0.18);
   border-top: 1px solid var(--border-subtle);
   position: relative;
-  box-shadow: var(--shadow-card);
+  box-shadow: 10px 0 35px -5px rgba(0, 0, 0, 0.6), var(--shadow-card);
 }
 
-/* Floating Expand Pill inside Map Panel when Directory is Collapsed */
+/* Floating Expand Pill inside Map Panel when Directory is Collapsed - Hand-Sized Touch Target */
 .nav-floating-expand-pill {
   position: absolute !important;
-  top: 24px;
-  left: 24px;
+  top: 32px;
+  left: 32px;
   z-index: 80;
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  height: 56px;
-  min-width: 240px;
-  padding: 0 24px;
-  background: rgba(17, 24, 39, 0.94);
+  gap: 14px;
+  min-height: 72px;
+  min-width: 260px;
+  padding: 0 28px;
+  background: rgba(17, 24, 39, 0.95);
   backdrop-filter: blur(20px);
   color: var(--text-main);
   border: 2px solid var(--accent-primary);
   border-radius: var(--radius-full);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 0 0 25px var(--accent-glow);
-  font-size: 1.05rem;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.65), 0 0 25px var(--accent-glow);
+  font-size: 1.15rem;
   font-weight: 700;
   cursor: pointer;
   transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
@@ -202,16 +204,16 @@ body {
 .nav-floating-expand-pill:hover {
   background: rgba(30, 41, 59, 0.98);
   transform: scale(1.04);
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7), 0 0 30px var(--accent-primary);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.75), 0 0 32px var(--accent-primary);
 }
 
 .nav-floating-expand-pill .floating-expand-icon {
-  font-size: 1.3rem;
+  font-size: 1.5rem;
 }
 
 .nav-floating-expand-pill .floating-expand-arrow {
   color: var(--accent-secondary);
-  font-size: 1.1rem;
+  font-size: 1.25rem;
 }
 
 @media (orientation: portrait) {

@@ -30,7 +30,6 @@ export const VenueSwitcher: React.FC<VenueSwitcherProps> = ({
               onClick={() => onSelectVenue(venue)}
               onPointerDown={(e) => {
                 e.stopPropagation();
-                onSelectVenue(venue);
               }}
               role="tab"
               aria-selected={isActive}

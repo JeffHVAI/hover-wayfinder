@@ -54,7 +54,7 @@ export const StatusOverlay: React.FC = () => {
 
   return (
     <>
-      {/* Invisible 120x120 corner trigger in top-left */}
+      {/* Hidden debug trigger in top-right corner (away from user reach quadrant) */}
       <div
         className="status-corner-trigger"
         onClick={handleCornerTap}

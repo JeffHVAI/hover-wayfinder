@@ -61,16 +61,13 @@ export const HomeScreen: React.FC = () => {
             className="home-back-btn touch-interactive"
             data-touch-target="true"
             onClick={resetToAttract}
-            onPointerDown={(e) => {
-              e.stopPropagation();
-              resetToAttract();
-            }}
+            onPointerDown={(e) => e.stopPropagation()}
             aria-label="Back to welcome screen and venue selection"
           >
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <polyline points="15 18 9 12 15 6" />
             </svg>
-            <span>← Welcome / Venues</span>
+            <span>Welcome</span>
           </button>
 
           <button

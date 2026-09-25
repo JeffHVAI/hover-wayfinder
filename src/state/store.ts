@@ -144,11 +144,12 @@ export const useStore = create<AppStore>((set, get) => ({
   },
 
   popScreen: () => {
+    const now = Date.now();
+    if (now - lastNavToggleTime < 350) return;
+    lastNavToggleTime = now;
     const { stack, controller, resetToAttract } = get();
     if (stack.length <= 1) {
-      if (stack[0]?.type === 'home') {
-        resetToAttract();
-      }
+      resetToAttract();
       return;
     }
     const nextStack = stack.slice(0, -1);
@@ -165,6 +166,9 @@ export const useStore = create<AppStore>((set, get) => ({
   },
 
   resetToHome: () => {
+    const now = Date.now();
+    if (now - lastNavToggleTime < 350) return;
+    lastNavToggleTime = now;
     const { controller } = get();
     controller?.reset();
     const homeState: ScreenState = { type: 'home' };
@@ -178,6 +182,9 @@ export const useStore = create<AppStore>((set, get) => ({
   },
 
   resetToAttract: () => {
+    const now = Date.now();
+    if (now - lastNavToggleTime < 350) return;
+    lastNavToggleTime = now;
     const { controller } = get();
     controller?.reset();
     const attractState: ScreenState = { type: 'attract' };
