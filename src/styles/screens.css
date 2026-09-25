@@ -29,23 +29,23 @@
 .attract-content {
   position: relative;
   z-index: 2;
-  max-width: 960px;
+  max-width: 900px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 28px;
 }
 
 .attract-venue-badge {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 16px;
+  padding: 8px 18px;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-full);
-  font-size: 0.88rem;
-  font-weight: 700;
+  font-size: 0.95rem;
+  font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--accent-secondary);
@@ -60,65 +60,46 @@
 }
 
 .attract-title {
-  font-size: 2.8rem;
+  font-size: 3.5rem;
   font-weight: 800;
   line-height: 1.1;
   letter-spacing: -0.02em;
   background: linear-gradient(135deg, #ffffff 40%, #93c5fd 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin: 0;
 }
 
-/* Attract Video Showcase Frame */
-.attract-video-showcase {
-  position: relative;
-  width: 720px;
-  max-width: 92vw;
-  aspect-ratio: 16 / 9;
-  max-height: 405px;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  border: 1.5px solid rgba(56, 189, 248, 0.4);
-  box-shadow: 0 16px 45px -5px rgba(0, 0, 0, 0.8), 0 0 35px rgba(56, 189, 248, 0.25);
-  background: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.attract-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+.attract-subtitle {
+  font-size: 1.35rem;
+  color: var(--text-muted);
+  max-width: 650px;
+  line-height: 1.5;
 }
 
 /* 3 Gesture Showcase Cards */
 .attract-gestures-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  gap: var(--gap);
   width: 100%;
-  max-width: 720px;
-  margin-top: 4px;
+  margin-top: 10px;
 }
 
 .gesture-card {
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  padding: 14px 16px;
+  border-radius: var(--radius-lg);
+  padding: 28px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   box-shadow: var(--shadow-card);
 }
 
 .gesture-icon-anim {
-  width: 52px;
-  height: 52px;
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
   background: rgba(59, 130, 246, 0.12);
   border: 1px solid rgba(59, 130, 246, 0.3);
