@@ -62,6 +62,8 @@ interface AppStore {
   updateTelemetry: (partial: Partial<TelemetryData>) => void;
 }
 
+let lastNavToggleTime = 0;
+
 export const useStore = create<AppStore>((set, get) => ({
   site: FALLBACK_SITE,
   setSite: (site) => set({ site }),
@@ -79,6 +81,9 @@ export const useStore = create<AppStore>((set, get) => ({
     setTimeout(() => window.dispatchEvent(new Event('resize')), 320);
   },
   toggleNav: () => {
+    const now = Date.now();
+    if (now - lastNavToggleTime < 350) return;
+    lastNavToggleTime = now;
     const next = !get().isNavCollapsed;
     set({ isNavCollapsed: next });
     setTimeout(() => window.dispatchEvent(new Event('resize')), 50);

@@ -18,7 +18,7 @@ export const VenueSwitcher: React.FC<VenueSwitcherProps> = ({
 }) => {
   if (mode === 'bar') {
     return (
-      <div className="venue-switcher-bar" aria-label="Demo Venues">
+      <div className="venue-switcher-bar" role="tablist" aria-label="Demo Venues">
         {DEMO_VENUES.map((venue) => {
           const isActive = activeVenueId === venue.id || (!activeVenueId && venue.id === 'mall-a');
           return (
@@ -28,7 +28,12 @@ export const VenueSwitcher: React.FC<VenueSwitcherProps> = ({
               className={`venue-bar-btn touch-interactive ${isActive ? 'active' : ''}`}
               data-touch-target="true"
               onClick={() => onSelectVenue(venue)}
-              aria-pressed={isActive}
+              onPointerDown={(e) => {
+                e.stopPropagation();
+                onSelectVenue(venue);
+              }}
+              role="tab"
+              aria-selected={isActive}
               aria-label={`Switch to ${venue.name}`}
             >
               <span className="venue-bar-icon">{venue.icon}</span>
@@ -36,7 +41,7 @@ export const VenueSwitcher: React.FC<VenueSwitcherProps> = ({
                 <span className="venue-bar-name">{venue.shortName}</span>
                 <span className="venue-bar-cat">{venue.category}</span>
               </div>
-              {isActive && <span className="active-badge">ACTIVE</span>}
+              {isActive && <span className="active-dot" title="Active Map" />}
             </button>
           );
         })}

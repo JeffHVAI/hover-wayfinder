@@ -32,7 +32,7 @@ export const DEMO_VENUES: DemoVenue[] = [
   {
     id: 'museum',
     name: 'Metropolitan Museum & Gallery',
-    shortName: 'Museum & Gallery',
+    shortName: 'Museum',
     category: 'Exhibitions & Culture',
     icon: '🏛️',
     mapId: '660c0c3aae0596d87766f2da',

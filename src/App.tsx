@@ -206,42 +206,28 @@ export const App: React.FC = () => {
       {/* 4. Directory Screen Panel */}
       <section className={`directory-panel ${isNavCollapsed ? 'collapsed' : 'expanded'}`}>
         {renderScreen()}
-
-        {/* Arrow Drawer Toggle Tab on panel edge */}
-        <button
-          type="button"
-          className="nav-drawer-toggle-tab touch-interactive"
-          data-touch-target="true"
-          onClick={toggleNav}
-          aria-label={isNavCollapsed ? "Expand directory menu" : "Collapse directory menu"}
-          title={isNavCollapsed ? "Expand directory menu" : "Collapse directory menu"}
-        >
-          <span className="toggle-tab-arrow-desktop">◀</span>
-          <span className="toggle-tab-arrow-mobile">▲</span>
-          <span className="toggle-tab-text">Hide Menu</span>
-        </button>
       </section>
-
-      {/* Floating Expand Pill button when collapsed */}
-      {isNavCollapsed && currentScreen.type !== 'attract' && (
-        <button
-          type="button"
-          className="nav-floating-expand-pill touch-interactive"
-          data-touch-target="true"
-          onClick={toggleNav}
-          aria-label="Expand directory menu"
-          title="Show Directory Menu"
-        >
-          <span className="floating-expand-icon">🔍</span>
-          <span className="floating-expand-arrow-desktop">▶</span>
-          <span className="floating-expand-arrow-mobile">▼</span>
-          <span className="floating-expand-text">Show Directory</span>
-        </button>
-      )}
 
       {/* 5. Map Panel with Single Long-Lived 3D Canvas */}
       <section className={`map-panel ${isNavCollapsed ? 'full-screen' : ''}`}>
         <MapCanvas />
+
+        {/* Floating Expand Pill button (shown when directory is collapsed) */}
+        {isNavCollapsed && currentScreen.type !== 'attract' && (
+          <button
+            type="button"
+            className="nav-floating-expand-pill touch-interactive"
+            data-touch-target="true"
+            onClick={toggleNav}
+            onPointerDown={(e) => e.stopPropagation()}
+            aria-label="Show Directory & Search"
+            title="Show Directory & Search"
+          >
+            <span className="floating-expand-icon">📋</span>
+            <span className="floating-expand-text">Show Directory & Search</span>
+            <span className="floating-expand-arrow">▶</span>
+          </button>
+        )}
 
         {/* Floor Picker stack (Top Right) */}
         {controller?.index?.floors && (

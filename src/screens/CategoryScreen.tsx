@@ -69,15 +69,15 @@ export const CategoryScreen: React.FC = () => {
 
         <button
           type="button"
-          className="header-collapse-btn touch-interactive"
+          className="header-mode-toggle-btn touch-interactive"
           data-touch-target="true"
           onClick={toggleNav}
-          aria-label="Collapse directory menu to maximize 3D map"
-          title="Maximize Map View"
+          onPointerDown={(e) => e.stopPropagation()}
+          aria-label="Maximize 3D Map"
+          title="Switch to Full Screen Map View"
         >
-          <span className="collapse-arrow-desktop">◀</span>
-          <span className="collapse-arrow-mobile">▲</span>
-          <span className="collapse-label">Map</span>
+          <span className="mode-btn-icon">🗺️</span>
+          <span className="mode-btn-text">Full Map ⤢</span>
         </button>
       </div>
 
