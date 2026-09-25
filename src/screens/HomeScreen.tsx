@@ -19,7 +19,6 @@ export const HomeScreen: React.FC = () => {
     toggleNav,
   } = useStore();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isVenueModalOpen, setIsVenueModalOpen] = useState(false);
 
   const categories = controller?.index?.categories || [];
   const locations = controller?.index?.locations || [];
@@ -54,21 +53,12 @@ export const HomeScreen: React.FC = () => {
     <div className="home-screen">
       {/* Top Search & Navigation Bar */}
       <div className="home-header">
-        {/* Row 1: Reach-anchored Navigation Bar */}
+        {/* Row 1: Header Bar with Full 3D Map Toggle */}
         <div className="home-header-top-nav">
-          <button
-            type="button"
-            className="home-back-btn touch-interactive"
-            data-touch-target="true"
-            onClick={resetToAttract}
-            onPointerDown={(e) => e.stopPropagation()}
-            aria-label="Back to welcome screen and venue selection"
-          >
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <polyline points="15 18 9 12 15 6" />
-            </svg>
-            <span>Welcome</span>
-          </button>
+          <div className="home-station-badge">
+            <span className="badge-dot" />
+            <span>Interactive Wayfinder</span>
+          </div>
 
           <button
             type="button"
@@ -84,7 +74,7 @@ export const HomeScreen: React.FC = () => {
           </button>
         </div>
 
-        {/* Row 2: Venue Identity & Switcher trigger */}
+        {/* Row 2: Venue Identity */}
         <div className="home-venue-identity">
           <div className="venue-title-group">
             <span className="venue-hero-icon">{currentVenue.icon}</span>
@@ -93,17 +83,6 @@ export const HomeScreen: React.FC = () => {
               <span className="brand-venue-subtitle">Interactive 3D Wayfinding & Kiosk</span>
             </div>
           </div>
-
-          <button
-            type="button"
-            className="home-venue-change-pill touch-interactive"
-            data-touch-target="true"
-            onClick={() => setIsVenueModalOpen(true)}
-            onPointerDown={(e) => e.stopPropagation()}
-            aria-label="Change demo venue map"
-          >
-            <span>Change ▾</span>
-          </button>
         </div>
 
         <div className="home-search-actions">
@@ -174,15 +153,6 @@ export const HomeScreen: React.FC = () => {
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
         onSelectLocation={(loc: LocationItem) => openLocation(loc)}
-      />
-
-      {/* Venue Selection Modal */}
-      <VenueSwitcher
-        mode="modal"
-        isOpen={isVenueModalOpen}
-        activeVenueId={activeVenueId}
-        onClose={() => setIsVenueModalOpen(false)}
-        onSelectVenue={handleSelectVenue}
       />
     </div>
   );
