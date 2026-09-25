@@ -18,6 +18,8 @@ export interface SiteConfig {
     resetSeconds: number;
   };
   layout: 'auto' | 'portrait' | 'landscape';
+  key?: string;
+  secret?: string;
 }
 
 export interface LocationItem {

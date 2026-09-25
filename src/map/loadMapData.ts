@@ -5,23 +5,30 @@ import type { SiteConfig } from '../types';
 export async function loadMapData(site: SiteConfig) {
   let auth: any = null;
 
-  try {
-    const tokRes = await fetch('/api/mappedin-token');
-    if (tokRes.ok) {
-      const tok = await tokRes.json();
-      if (tok?.accessToken) {
-        auth = { accessToken: tok.accessToken };
-      }
-    }
-  } catch {
-    // Cloudflare Pages token endpoint not active locally or in offline dev
-  }
-
-  if (!auth) {
+  if (site.key && site.secret) {
     auth = {
-      key: DEMO_CREDENTIALS.key,
-      secret: DEMO_CREDENTIALS.secret,
+      key: site.key,
+      secret: site.secret,
     };
+  } else {
+    try {
+      const tokRes = await fetch('/api/mappedin-token');
+      if (tokRes.ok) {
+        const tok = await tokRes.json();
+        if (tok?.accessToken) {
+          auth = { accessToken: tok.accessToken };
+        }
+      }
+    } catch {
+      // Cloudflare Pages token endpoint not active locally or in offline dev
+    }
+
+    if (!auth) {
+      auth = {
+        key: DEMO_CREDENTIALS.key,
+        secret: DEMO_CREDENTIALS.secret,
+      };
+    }
   }
 
   return getMapData({

@@ -88,12 +88,12 @@ body {
     flex-direction: row;
   }
 
-  /* Left-Quadrant Ergonomic Reach Hub: 560px matches adult armspan from left standing position */
+  /* Left-Quadrant Ergonomic Reach Hub: 680px accommodates left venue rail (220px) + directory pane (460px) within 24-inch armspan */
   .app-shell.layout-auto .directory-panel,
   .app-shell.layout-landscape .directory-panel {
-    width: 560px;
-    min-width: 520px;
-    max-width: 600px;
+    width: 680px;
+    min-width: 620px;
+    max-width: 720px;
     height: 100%;
     z-index: 20;
     flex-shrink: 0;
@@ -107,7 +107,7 @@ body {
     top: 0;
     left: 0;
     bottom: 0;
-    width: 560px !important;
+    width: 680px !important;
     transform: translateX(-100%) !important;
     opacity: 0 !important;
     pointer-events: none !important;

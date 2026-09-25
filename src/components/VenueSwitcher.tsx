@@ -6,7 +6,7 @@ interface VenueSwitcherProps {
   onSelectVenue: (venue: DemoVenue) => void;
   isOpen?: boolean;
   onClose?: () => void;
-  mode?: 'modal' | 'bar';
+  mode?: 'rail' | 'bar' | 'modal';
 }
 
 export const VenueSwitcher: React.FC<VenueSwitcherProps> = ({
@@ -14,8 +14,53 @@ export const VenueSwitcher: React.FC<VenueSwitcherProps> = ({
   onSelectVenue,
   isOpen = false,
   onClose,
-  mode = 'modal',
+  mode = 'rail',
 }) => {
+  if (mode === 'rail') {
+    return (
+      <aside className="venue-rail" aria-label="Demo Venues Navigation">
+        <div className="venue-rail-header">
+          <div className="venue-rail-badge">
+            <span className="rail-badge-dot" />
+            <span className="rail-badge-title">DEMO VENUES</span>
+            <span className="rail-badge-count">{DEMO_VENUES.length}</span>
+          </div>
+          <span className="venue-rail-hint">Select to explore 3D map</span>
+        </div>
+
+        <div className="venue-rail-list" role="tablist" aria-label="Select Demo Venue">
+          {DEMO_VENUES.map((venue) => {
+            const isActive = activeVenueId === venue.id || (!activeVenueId && venue.id === 'mall-a');
+            return (
+              <button
+                key={venue.id}
+                type="button"
+                className={`venue-rail-btn touch-interactive ${isActive ? 'active' : ''}`}
+                data-touch-target="true"
+                onClick={() => onSelectVenue(venue)}
+                onPointerDown={(e) => {
+                  e.stopPropagation();
+                }}
+                role="tab"
+                aria-selected={isActive}
+                aria-label={`Switch to ${venue.name}`}
+              >
+                <div className="rail-btn-icon-wrapper">
+                  <span className="rail-btn-icon">{venue.icon}</span>
+                </div>
+                <div className="rail-btn-labels">
+                  <span className="rail-btn-name">{venue.shortName}</span>
+                  <span className="rail-btn-cat">{venue.category}</span>
+                </div>
+                {isActive && <span className="rail-active-dot" title="Active Map" />}
+              </button>
+            );
+          })}
+        </div>
+      </aside>
+    );
+  }
+
   if (mode === 'bar') {
     return (
       <div className="venue-switcher-bar" role="tablist" aria-label="Demo Venues">
